@@ -38,7 +38,7 @@ jobs:
           ls -la
 
   reel_2:
-    needs: spin
+    needs: reel_1
     runs-on: ubuntu-latest
 
     steps:
@@ -52,7 +52,7 @@ jobs:
           ls -la
 
   reel_3:
-    needs: spin
+    needs: reel_2
     runs-on: ubuntu-latest
 
     steps:
@@ -64,3 +64,20 @@ jobs:
           date
           pwd
           ls -la
+  
+  deploy:
+    needs:
+      - spin
+      - reel_1
+      - reel_2
+      - reel_3
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Jackpot!
+        run: |
+          echo "You win!"
+
