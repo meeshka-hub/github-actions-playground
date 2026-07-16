@@ -1,1 +1,1 @@
-# github-actions-plaground
+# github-actions-playground
