@@ -16,12 +16,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Print Greeting
+      - name: Start Machine
         run: |
-          echo "Hello, Spin!"
-          date
-          pwd
-          ls -la
+          echo "The machine is armed..."
+          echo "## 🎰 Deployment Casino" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Waiting for the reels..." >> "$GITHUB_STEP_SUMMARY"
 
   reel_1:
     needs: spin
@@ -33,6 +33,8 @@ jobs:
     steps:
       - id: roll
         run: |
+          sleep 3
+
           symbols=("🍒" "🍋" "🔔" "⭐" "💎" "7️⃣")
           weights=(57 25 10 5 2 1)
 
@@ -65,6 +67,8 @@ jobs:
     steps:
       - id: roll
         run: |
+          sleep 5
+
           symbols=("🍒" "🍋" "🔔" "⭐" "💎" "7️⃣")
           weights=(57 25 10 5 2 1)
 
@@ -97,6 +101,8 @@ jobs:
     steps:
       - id: roll
         run: |
+          sleep 7
+
           symbols=("🍒" "🍋" "🔔" "⭐" "💎" "7️⃣")
           weights=(57 25 10 5 2 1)
 
@@ -131,16 +137,25 @@ jobs:
     steps:
       - name: Check payout
         run: |
-          echo "${{ needs.reel-1.outputs.symbol }}"
-          echo "${{ needs.reel-2.outputs.symbol }}"
-          echo "${{ needs.reel-3.outputs.symbol }}"
+          R1="${{ needs.reel-1.outputs.symbol }}"
+          R2="${{ needs.reel-2.outputs.symbol }}"
+          R3="${{ needs.reel-3.outputs.symbol }}"
+
+          {
+            echo ""
+            echo "## 🎰 Final Spin"
+            echo ""
+            echo "| Results |"
+            echo "|---|---|---|"
+            echo "| $R1 | $R2 | $R3 |"
+          } >> "$GITHUB_STEP_SUMMARY"
 
           if [ \
-            "${{ needs.reel-1.outputs.symbol }}" = "7️⃣" \
+            "$R1" = "7️⃣" \
             ] && [ \
-            "${{ needs.reel-2.outputs.symbol }}" = "7️⃣" \
+            "$R2" = "7️⃣" \
             ] && [ \
-            "${{ needs.reel-3.outputs.symbol }}" = "7️⃣" \
+            "$R3" = "7️⃣" \
             ]; then
               echo "🎰 JACKPOT - DEPLOYING"
           else
