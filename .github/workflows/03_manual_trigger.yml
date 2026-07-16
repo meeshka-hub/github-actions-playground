@@ -1,0 +1,23 @@
+name: Spin
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    spin:
+        runs-on: ubuntu-latest
+
+        environment:
+            name: prod
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Print Greeting
+              run: |
+                echo "Hello, Spin!"
+                date
+                pwd
+                ls -la
