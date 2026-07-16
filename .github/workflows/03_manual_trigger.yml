@@ -21,7 +21,7 @@ jobs:
           echo "The machine is armed..."
           echo "## 🎰 Deployment Casino" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Waiting for the reels..." >> "$GITHUB_STEP_SUMMARY"
+          echo "Welcome and good luck!" >> "$GITHUB_STEP_SUMMARY"
 
   reel_1:
     needs: spin
@@ -55,7 +55,9 @@ jobs:
           fi
 
           echo "symbol=$symbol" >> "$GITHUB_OUTPUT"
-          echo "🎰 Reel 1 landed on $symbol"
+          
+          echo "### 🎲 Reel 1" >> "$GITHUB_STEP_SUMMARY"
+          echo "Result: $symbol" >> "$GITHUB_STEP_SUMMARY"
 
   reel_2:
     needs: reel_1
@@ -89,7 +91,9 @@ jobs:
           fi
 
           echo "symbol=$symbol" >> "$GITHUB_OUTPUT"
-          echo "🎰 Reel 2 landed on $symbol"
+
+          echo "### 🎲 Reel 2" >> "$GITHUB_STEP_SUMMARY"
+          echo "Result: $symbol" >> "$GITHUB_STEP_SUMMARY"
 
   reel_3:
     needs: reel_2
@@ -123,7 +127,9 @@ jobs:
           fi
 
           echo "symbol=$symbol" >> "$GITHUB_OUTPUT"
-          echo "🎰 Reel 3 landed on $symbol"
+          
+          echo "### 🎲 Reel 3" >> "$GITHUB_STEP_SUMMARY"
+          echo "Result: $symbol" >> "$GITHUB_STEP_SUMMARY"
 
   jackpot:
     needs:
@@ -155,9 +161,9 @@ jobs:
             ] && [ \
             "$R3" = "7️⃣" \
             ]; then
-              echo "🎰 JACKPOT - DEPLOYING"
+              echo "# 🎰 JACKPOT - DEPLOYING" >> "$GITHUB_STEP_SUMMARY"
           else
-              echo "💀 No jackpot"
+              echo "# 💀 No jackpot. Try Again!" >> "$GITHUB_STEP_SUMMARY"
               exit 1
           fi
 
