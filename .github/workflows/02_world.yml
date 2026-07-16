@@ -2,7 +2,7 @@ name: World
 
 on: 
   workflow_run:
-    workflows: 'Hello'
+    workflows: 'Spin'
     branches:
         - main
     types:
