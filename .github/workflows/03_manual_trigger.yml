@@ -10,7 +10,7 @@ jobs:
   spin:
     runs-on: ubuntu-latest
     environment:
-      name: prod
+      name: casino
       url: https://github.com
 
     steps:
@@ -23,7 +23,7 @@ jobs:
           pwd
           ls -la
 
-  hello:
+  reel_1:
     needs: spin
     runs-on: ubuntu-latest
 
@@ -37,8 +37,22 @@ jobs:
           pwd
           ls -la
 
-  world:
-    needs: hello
+  reel_2:
+    needs: spin
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Print Greeting
+        run: |
+          echo "Hello, World!"
+          date
+          pwd
+          ls -la
+
+  reel_3:
+    needs: spin
     runs-on: ubuntu-latest
 
     steps:
