@@ -25,46 +25,100 @@ jobs:
 
   reel_1:
     needs: spin
+    if: always()
     runs-on: ubuntu-latest
+    outputs:
+      symbol: ${{ steps.roll.outputs.symbol }}
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Print Greeting
+      - id: roll
         run: |
-          echo "Hello, Github Actions!"
-          date
-          pwd
-          ls -la
+          symbols=("🍒" "🍋" "🔔" "⭐" "💎" "7️⃣")
+          weights=(57 25 10 5 2 1)
+
+          roll=$(( RANDOM % 100 ))
+
+          if [ $roll -lt 57 ]; then
+            symbol="🍒"
+          elif [ $roll -lt 82 ]; then
+            symbol="🍋"
+          elif [ $roll -lt 92 ]; then
+            symbol="🔔"
+          elif [ $roll -lt 97 ]; then
+            symbol="⭐"
+          elif [ $roll -lt 99 ]; then
+            symbol="💎"
+          else
+            symbol="7️⃣"
+          fi
+
+          echo "symbol=$symbol" >> "$GITHUB_OUTPUT"
+          echo "🎰 Reel 1 landed on $symbol"
 
   reel_2:
     needs: reel_1
+    if: always()
     runs-on: ubuntu-latest
+    outputs:
+      symbol: ${{ steps.roll.outputs.symbol }}
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Print Greeting
+      - id: roll
         run: |
-          echo "Hello, World!"
-          date
-          pwd
-          ls -la
+          symbols=("🍒" "🍋" "🔔" "⭐" "💎" "7️⃣")
+          weights=(57 25 10 5 2 1)
+
+          roll=$(( RANDOM % 100 ))
+
+          if [ $roll -lt 57 ]; then
+            symbol="🍒"
+          elif [ $roll -lt 82 ]; then
+            symbol="🍋"
+          elif [ $roll -lt 92 ]; then
+            symbol="🔔"
+          elif [ $roll -lt 97 ]; then
+            symbol="⭐"
+          elif [ $roll -lt 99 ]; then
+            symbol="💎"
+          else
+            symbol="7️⃣"
+          fi
+
+          echo "symbol=$symbol" >> "$GITHUB_OUTPUT"
+          echo "🎰 Reel 2 landed on $symbol"
 
   reel_3:
     needs: reel_2
+    if: always()
     runs-on: ubuntu-latest
+    outputs:
+      symbol: ${{ steps.roll.outputs.symbol }}
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Print Greeting
+      - id: roll
         run: |
-          echo "Hello, World!"
-          date
-          pwd
-          ls -la
-  
+          symbols=("🍒" "🍋" "🔔" "⭐" "💎" "7️⃣")
+          weights=(57 25 10 5 2 1)
+
+          roll=$(( RANDOM % 100 ))
+
+          if [ $roll -lt 57 ]; then
+            symbol="🍒"
+          elif [ $roll -lt 82 ]; then
+            symbol="🍋"
+          elif [ $roll -lt 92 ]; then
+            symbol="🔔"
+          elif [ $roll -lt 97 ]; then
+            symbol="⭐"
+          elif [ $roll -lt 99 ]; then
+            symbol="💎"
+          else
+            symbol="7️⃣"
+          fi
+
+          echo "symbol=$symbol" >> "$GITHUB_OUTPUT"
+          echo "🎰 Reel 3 landed on $symbol"
+
   deploy:
     needs:
       - spin
@@ -75,9 +129,21 @@ jobs:
     environment:
       name: prod
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Jackpot!
+      - name: Check payout
         run: |
-          echo "You win!"
+          echo "${{ needs.reel-1.outputs.symbol }}"
+          echo "${{ needs.reel-2.outputs.symbol }}"
+          echo "${{ needs.reel-3.outputs.symbol }}"
 
+          if [ \
+            "${{ needs.reel-1.outputs.symbol }}" = "7️⃣" \
+            ] && [ \
+            "${{ needs.reel-2.outputs.symbol }}" = "7️⃣" \
+            ] && [ \
+            "${{ needs.reel-3.outputs.symbol }}" = "7️⃣" \
+            ]; then
+              echo "🎰 JACKPOT - DEPLOYING"
+          else
+              echo "💀 No jackpot"
+              exit 1
+          fi
