@@ -119,7 +119,7 @@ jobs:
           echo "symbol=$symbol" >> "$GITHUB_OUTPUT"
           echo "🎰 Reel 3 landed on $symbol"
 
-  deploy:
+  jackpot:
     needs:
       - spin
       - reel_1
@@ -147,3 +147,13 @@ jobs:
               echo "💀 No jackpot"
               exit 1
           fi
+
+  deploy:
+    needs: jackpot
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+    steps:
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production..."
