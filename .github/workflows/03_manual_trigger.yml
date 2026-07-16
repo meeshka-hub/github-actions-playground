@@ -1,25 +1,55 @@
 name: Spin
 
 on:
-    push:
-        branches:
-            - main
-    workflow_dispatch:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-    spin:
-        if: github.event_name == 'workflow_dispatch'
-        runs-on: ubuntu-latest
+  spin:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+      url: https://github.com
 
-        environment:
-            name: prod
+    steps:
+      - uses: actions/checkout@v4
 
-        steps:
-            - uses: actions/checkout@v4
+      - name: Print Greeting
+        run: |
+          echo "Hello, Spin!"
+          date
+          pwd
+          ls -la
 
-            - name: Print Greeting
-              run: |
-                echo "Hello, Spin!"
-                date
-                pwd
-                ls -la
+  hello:
+    needs: spin
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Print Greeting
+        run: |
+          echo "Hello, Github Actions!"
+          date
+          pwd
+          ls -la
+
+  world:
+    needs: hello
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Print Greeting
+        run: |
+          echo "Hello, World!"
+          date
+          pwd
+          ls -la

@@ -1,24 +1,12 @@
 name: World
 
-on: 
-  workflow_run:
-    workflows: 'Spin'
-    branches:
-        - main
-    types:
-        - completed
+on:
+  workflow_call:
 
 jobs:
-    world:
-        runs-on:
-            - ubuntu-latest
+  world:
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: actions/checkout@v4
-
-            - name: Print Greeting
-              run: |
-                echo "Hello, World!"
-                date
-                pwd
-                ls -la
+    steps:
+      - name: Placeholder
+        run: echo "This workflow is now handled by the main Spin workflow."
