@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   spin:
-    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment:
       name: prod
@@ -26,7 +24,6 @@ jobs:
 
   hello:
     needs: spin
-    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     steps:
@@ -41,7 +38,6 @@ jobs:
 
   world:
     needs: hello
-    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     steps:
