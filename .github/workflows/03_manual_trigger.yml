@@ -135,9 +135,9 @@ jobs:
     steps:
       - name: Check payout
         run: |
-          R1="${{ needs.reel-1.outputs.symbol }}"
-          R2="${{ needs.reel-2.outputs.symbol }}"
-          R3="${{ needs.reel-3.outputs.symbol }}"
+          R1="${{ needs.reel_1.outputs.symbol }}"
+          R2="${{ needs.reel_2.outputs.symbol }}"
+          R3="${{ needs.reel_3.outputs.symbol }}"
 
           {
             echo ""
