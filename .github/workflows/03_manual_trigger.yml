@@ -64,7 +64,7 @@ jobs:
 
       - id: roll
         run: |
-          sleep 2
+          sleep 3
           python scripts/reel_spin.py > reel_output.txt
           SYMBOL=$(tail -n 1 reel_output.txt | sed 's/^symbol=//')
           echo "symbol=$SYMBOL" >> "$GITHUB_OUTPUT"
@@ -88,7 +88,7 @@ jobs:
 
       - id: roll
         run: |
-          sleep 4
+          sleep 5
           python scripts/reel_spin.py > reel_output.txt
           SYMBOL=$(tail -n 1 reel_output.txt | sed 's/^symbol=//')
           echo "symbol=$SYMBOL" >> "$GITHUB_OUTPUT"
