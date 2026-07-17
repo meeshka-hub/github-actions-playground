@@ -31,33 +31,19 @@ jobs:
       symbol: ${{ steps.roll.outputs.symbol }}
 
     steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
       - id: roll
         run: |
           sleep 3
-
-          symbols=("🍒" "🍋" "🔔" "⭐" "💎" "7️⃣")
-          weights=(57 25 10 5 2 1)
-
-          roll=$(( RANDOM % 100 ))
-
-          if [ $roll -lt 57 ]; then
-            symbol="🍒"
-          elif [ $roll -lt 82 ]; then
-            symbol="🍋"
-          elif [ $roll -lt 92 ]; then
-            symbol="🔔"
-          elif [ $roll -lt 97 ]; then
-            symbol="⭐"
-          elif [ $roll -lt 99 ]; then
-            symbol="💎"
-          else
-            symbol="7️⃣"
-          fi
-
-          echo "symbol=$symbol" >> "$GITHUB_OUTPUT"
-          
+          python scripts/reel_spin.py > reel_output.txt
+          SYMBOL=$(tail -n 1 reel_output.txt | sed 's/^symbol=//')
+          echo "symbol=$SYMBOL" >> "$GITHUB_OUTPUT"
           echo "### 🎲 Reel 1" >> "$GITHUB_STEP_SUMMARY"
-          echo "Result: $symbol" >> "$GITHUB_STEP_SUMMARY"
+          echo "Result: $SYMBOL" >> "$GITHUB_STEP_SUMMARY"
 
   reel_2:
     needs: reel_1
@@ -67,33 +53,19 @@ jobs:
       symbol: ${{ steps.roll.outputs.symbol }}
 
     steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
       - id: roll
         run: |
           sleep 5
-
-          symbols=("🍒" "🍋" "🔔" "⭐" "💎" "7️⃣")
-          weights=(57 25 10 5 2 1)
-
-          roll=$(( RANDOM % 100 ))
-
-          if [ $roll -lt 57 ]; then
-            symbol="🍒"
-          elif [ $roll -lt 82 ]; then
-            symbol="🍋"
-          elif [ $roll -lt 92 ]; then
-            symbol="🔔"
-          elif [ $roll -lt 97 ]; then
-            symbol="⭐"
-          elif [ $roll -lt 99 ]; then
-            symbol="💎"
-          else
-            symbol="7️⃣"
-          fi
-
-          echo "symbol=$symbol" >> "$GITHUB_OUTPUT"
-
+          python scripts/reel_spin.py > reel_output.txt
+          SYMBOL=$(tail -n 1 reel_output.txt | sed 's/^symbol=//')
+          echo "symbol=$SYMBOL" >> "$GITHUB_OUTPUT"
           echo "### 🎲 Reel 2" >> "$GITHUB_STEP_SUMMARY"
-          echo "Result: $symbol" >> "$GITHUB_STEP_SUMMARY"
+          echo "Result: $SYMBOL" >> "$GITHUB_STEP_SUMMARY"
 
   reel_3:
     needs: reel_2
@@ -103,33 +75,19 @@ jobs:
       symbol: ${{ steps.roll.outputs.symbol }}
 
     steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
       - id: roll
         run: |
           sleep 7
-
-          symbols=("🍒" "🍋" "🔔" "⭐" "💎" "7️⃣")
-          weights=(57 25 10 5 2 1)
-
-          roll=$(( RANDOM % 100 ))
-
-          if [ $roll -lt 57 ]; then
-            symbol="🍒"
-          elif [ $roll -lt 82 ]; then
-            symbol="🍋"
-          elif [ $roll -lt 92 ]; then
-            symbol="🔔"
-          elif [ $roll -lt 97 ]; then
-            symbol="⭐"
-          elif [ $roll -lt 99 ]; then
-            symbol="💎"
-          else
-            symbol="7️⃣"
-          fi
-
-          echo "symbol=$symbol" >> "$GITHUB_OUTPUT"
-          
+          python scripts/reel_spin.py > reel_output.txt
+          SYMBOL=$(tail -n 1 reel_output.txt | sed 's/^symbol=//')
+          echo "symbol=$SYMBOL" >> "$GITHUB_OUTPUT"
           echo "### 🎲 Reel 3" >> "$GITHUB_STEP_SUMMARY"
-          echo "Result: $symbol" >> "$GITHUB_STEP_SUMMARY"
+          echo "Result: $SYMBOL" >> "$GITHUB_STEP_SUMMARY"
 
   jackpot:
     needs:
@@ -163,7 +121,7 @@ jobs:
             ]; then
               echo "# 🎰 JACKPOT - DEPLOYING" >> "$GITHUB_STEP_SUMMARY"
           else
-              echo "# 💀 No jackpot. Try Again!" >> "$GITHUB_STEP_SUMMARY"
+              echo "# 💀 No jackpot. Try again!" >> "$GITHUB_STEP_SUMMARY"
               exit 1
           fi
 
